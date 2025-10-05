@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-login-page',
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
 export class LoginPage {
   loginForm: FormGroup;
   private router = inject(Router);
+  private authservice = inject(AuthService);
   private fb = inject(FormBuilder);
   actions = [
     { value: 'ride', label: 'Ride' },
@@ -36,9 +38,11 @@ export class LoginPage {
       console.log('Login data:', this.loginForm.value);
       if (this.loginForm.value.action === 'ride') {
         console.log('Navigate to Add Ride page');
+        this.authservice.login({empId: this.loginForm.value,scopes:['canAdd']});
         this.router.navigate(['/add-view-rides']);
       } else {
         console.log('Navigate to Book Ride page');
+        this.authservice.login({empId: this.loginForm.value,scopes:['canBook']});
         this.router.navigate(['/book-ride']);
       }
     }

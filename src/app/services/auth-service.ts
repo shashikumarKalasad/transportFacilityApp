@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 export type User = {
-  empId:string;
-  scopes : ('canBook'|'canAdd')[];
+  empId: string;
+  scopes: ('canBook' | 'canAdd')[];
 }
 
 @Injectable({
@@ -11,15 +12,24 @@ export type User = {
 })
 export class AuthService {
   private router = inject(Router);
+  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
   private _user: User | undefined;
-  public get user(): User| undefined {
+  public get user(): User | undefined {
     return this._user || undefined;
   }
-  public set user(value: User) {
-    this._user = value;
+  getIsLoggedIn() {
+    return this.isLoggedIn.asObservable();
   }
-  logout(){
+  
+  login(value: User) {
+    this._user = value;
+    this.isLoggedIn.next(true);
+  }
+  logout() {
     this._user = undefined;
+    this.isLoggedIn.next(false);
+
     this.router.navigate(['/login']);
   }
 }

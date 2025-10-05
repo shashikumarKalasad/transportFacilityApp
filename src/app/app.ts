@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TopBar } from "../../../transport-by-the-employees-to-the-employees/transport-management/src/app/services/top-bar/top-bar";
+import { AuthService } from './services/auth-service';
+import { TopBar } from './components/top-bar/top-bar';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,19 @@ import { TopBar } from "../../../transport-by-the-employees-to-the-employees/tra
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-toggle() {
-  this.opened = !this.opened;
-}
+export class App implements OnInit {
+  showHamburger = true;
+  private authService = inject(AuthService);
+  ngOnInit(): void {
+    this.authService.getIsLoggedIn().subscribe(
+      loggedin => {
+        this.showHamburger = loggedin;
+        this.opened = loggedin;
+      }
+    )
+  }
+  toggle() {
+    this.opened = !this.opened;
+  }
   opened = true;
 }
