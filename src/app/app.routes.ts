@@ -24,5 +24,11 @@ export const routes: Routes = [
         title: 'View Rides',
         canActivate: [AuthGuard]
     },
+    {
+        path: '**',
+        component: LoginPage,
+        title: 'Login',
+
+    },
 ];
 ;
