@@ -36,8 +36,10 @@ export class LoginPage {
       console.log('Login data:', this.loginForm.value);
       if (this.loginForm.value.action === 'ride') {
         console.log('Navigate to Add Ride page');
+        this.router.navigate(['/add-view-rides']);
       } else {
         console.log('Navigate to Book Ride page');
+        this.router.navigate(['/book-ride']);
       }
     }
   }
