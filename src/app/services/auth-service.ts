@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 export type User = {
@@ -31,5 +31,16 @@ export class AuthService {
     this.isLoggedIn.next(false);
 
     this.router.navigate(['/login']);
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class AuthGuard implements CanActivate {
+  constructor(private auth: AuthService, private router: Router) {}
+
+  canActivate(): boolean | UrlTree {
+    return this.auth.user 
+      ? true 
+      : this.router.parseUrl('/login');
   }
 }
