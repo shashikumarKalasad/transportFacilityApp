@@ -1,17 +1,40 @@
-import {Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {inject, Injectable } from '@angular/core';
+import { BehaviorSubject, map } from 'rxjs';
 import { Ride } from '../components/ride-tile/ride-tile';
+import { AuthService } from './auth-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransportService {
 
-
+  private auth = inject(AuthService);
   private _rides$: BehaviorSubject<Ride[]> = new BehaviorSubject<Ride[]>(rides);
+
+  isUserTheAddedRide(ride:Ride){
+   return !!this.auth.user?.empId && ride.rideOwner === this.auth.user.empId
+  }
+
+  isUserBookedRide(ride:Ride){
+   return !!this.auth.user?.empId && ride.bookedEmployees.includes(this.auth.user.empId)
+  }
+
+  openRides$ = this._rides$.pipe(
+    map(rides => rides.filter(item => {
+      const userNotEligibleToBook = this.isUserBookedRide(item) || this.isUserTheAddedRide(item);
+      return item.remainingSeats && !userNotEligibleToBook;
+    }).map(item => {
+      return { ...item, userNotEligibleToBook: false };
+    })
+    )
+  );
 
   getRides() {
     return this._rides$.asObservable();
+  }
+
+  getOpenRides() {
+    return this.openRides$;
   }
 
 
