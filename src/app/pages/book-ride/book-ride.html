@@ -1,5 +1,7 @@
 <p>book-ride works!</p>
+<div class="tile-container">
 
-@for (item of rides; track item.rideId) {
-    <app-ride-tile [ride]="item"></app-ride-tile>
-}
+    @for (item of rides; track item.rideId) {
+        <app-ride-tile [ride]="item"></app-ride-tile>
+    }
+</div>
