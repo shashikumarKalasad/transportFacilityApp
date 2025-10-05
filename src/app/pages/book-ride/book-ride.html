@@ -1,8 +1,13 @@
 <p>book-ride works!</p>
 <div class="tile-container">
     <h2>Booked rides</h2>
-    @for (item of bookedrides; track item.rideId) {
-        <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
+    @if (bookedrides.length) {
+        
+        @for (item of bookedrides; track item.rideId) {
+            <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
+        }
+    } @else {
+        <p>No rides booked</p>
     }
 </div>
 <div class="tile-container">
@@ -43,7 +48,12 @@
                 </button>
         </form>
     </div>
-@for (item of filteredOpenRides; track item.rideId) {
-    <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
-}
+        @if (filteredOpenRides.length) {
+
+            @for (item of filteredOpenRides; track item.rideId) {
+                <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
+            }
+    } @else {
+        <p>No rides available</p>
+    }
 </div>

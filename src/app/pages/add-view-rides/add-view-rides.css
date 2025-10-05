@@ -2,6 +2,6 @@
     display: inline-flex;
 }
 
-h2{
+h2,p{
     margin-left: 1rem;
 }
