@@ -1,1 +1,5 @@
 <p>book-ride works!</p>
+
+@for (item of rides; track item.rideId) {
+    <app-ride-tile [ride]="item"></app-ride-tile>
+}
