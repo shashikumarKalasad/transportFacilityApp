@@ -4,3 +4,11 @@
 .nav-container{
     width: 250px;
 }
+
+.topbar{
+    position: fixed;
+    z-index: 1000;
+    background-color:cornflowerblue;
+    width: 100%;
+    top: 0;
+}
