@@ -17,7 +17,7 @@
 
   <mat-card-actions align="end">
     @if (!ride.userNotEligibleToBook) {
-        <button mat-button color="primary">Book</button>
+        <button mat-button color="primary" (click)="openDialog()">Book</button>
     }
 
   </mat-card-actions>

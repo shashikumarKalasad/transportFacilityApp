@@ -3,6 +3,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 export type Ride = { vehicleType: string; vehicleNo: string; vacantSeats: number; time: string; pickupPoint: string; destination: string;    rideId: number;
     bookedEmployees: string[];
     rideOwner: string;
@@ -27,4 +28,15 @@ export class RideTile {
     : 'bike.svg';
   }
 
+    openDialog(): void {
+    const dialogRef = this.dialog.open<ConfirmDialog, { width: string }, 'yes' | null>(ConfirmDialog, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'yes') {
+          this.bookARide.emit();
+      }
+    });
+  }
 }
