@@ -28,6 +28,9 @@ export class BookRide implements OnInit {
        this.bookedrides = rides;
      })
   }
+  bookARide(ride:Ride){
+     this.transportService.bookRide(ride);
+  }
 }
 
 

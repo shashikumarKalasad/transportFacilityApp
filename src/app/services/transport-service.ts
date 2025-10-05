@@ -51,6 +51,18 @@ export class TransportService {
     return this.bookedRides$;
   }
 
+    bookRide(ride: Ride) {
+    const currentRides = this._rides$.value;
+    console.log('dubugging');
+    
+    currentRides.forEach(item => {
+      if (item.rideId == ride.rideId && this.auth.user?.empId) {
+        item.bookedEmployees.push(this.auth.user.empId)
+        item.remainingSeats -= 1;
+      }
+    })
+    this._rides$.next(currentRides);
+  }
 
 }
 
