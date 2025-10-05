@@ -1,0 +1,24 @@
+<!-- ride-tile.component.html -->
+<mat-card class="ride-card">
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img [src]="vehicleImage" alt="{{ride.vehicleType}}" class="vehicle-avatar" />
+    </div>
+    <mat-card-title>{{ ride.vehicleType }} ({{ ride.vehicleNo }})</mat-card-title>
+    <mat-card-subtitle>{{ ride.time | date:'shortTime' }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p><strong>Rider:</strong> {{ ride.rideOwner }}</p>
+    <p><strong>Seats Available:</strong> {{ ride.remainingSeats }}</p>
+    <p><strong>Pick-up:</strong> {{ ride.pickupPoint }}</p>
+    <p><strong>Destination:</strong> {{ ride.destination }}</p>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    @if (!ride.userNotEligibleToBook) {
+        <button mat-button color="primary">Book</button>
+    }
+
+  </mat-card-actions>
+</mat-card>

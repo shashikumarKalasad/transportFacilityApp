@@ -1,0 +1,10 @@
+/* ride-tile.component.css */
+.ride-card {
+  width: 300px;
+  margin: 1rem;
+}
+
+.vehicle-avatar {
+  width: 40px;
+  height: 40px;
+}
