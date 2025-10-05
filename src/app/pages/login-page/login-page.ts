@@ -38,11 +38,11 @@ export class LoginPage {
       console.log('Login data:', this.loginForm.value);
       if (this.loginForm.value.action === 'ride') {
         console.log('Navigate to Add Ride page');
-        this.authservice.login({empId: this.loginForm.value,scopes:['canAdd']});
+        this.authservice.login({empId: this.loginForm.value.employeeId,scopes:['canAdd']});
         this.router.navigate(['/add-view-rides']);
       } else {
         console.log('Navigate to Book Ride page');
-        this.authservice.login({empId: this.loginForm.value,scopes:['canBook']});
+        this.authservice.login({empId: this.loginForm.value.employeeId,scopes:['canBook']});
         this.router.navigate(['/book-ride']);
       }
     }

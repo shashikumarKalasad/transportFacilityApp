@@ -13,14 +13,21 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class BookRide implements OnInit {
   private transportService = inject(TransportService);
   private destroyRef = inject(DestroyRef);
+  rides:Ride[] =[];
+  bookedrides:Ride[] =[];
   ngOnInit(): void {
      this.transportService.getOpenRides()
      .pipe(takeUntilDestroyed(this.destroyRef))
      .subscribe(rides=>{
        this.rides = rides;
      })
+
+     this.transportService.getBookedRides()
+     .pipe(takeUntilDestroyed(this.destroyRef))
+     .subscribe(rides=>{
+       this.bookedrides = rides;
+     })
   }
-  rides:Ride[] =[]
 }
 
 

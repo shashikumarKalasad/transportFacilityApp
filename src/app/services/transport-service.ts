@@ -17,7 +17,7 @@ export class TransportService {
 
   isUserBookedRide(ride:Ride){
    return !!this.auth.user?.empId && ride.bookedEmployees.includes(this.auth.user.empId)
-  }
+  } 
 
   openRides$ = this._rides$.pipe(
     map(rides => rides.filter(item => {
@@ -29,12 +29,26 @@ export class TransportService {
     )
   );
 
+  bookedRides$ = this._rides$.pipe(
+    map(rides => rides.filter(item => {
+      const bookedByUser = this.isUserBookedRide(item);
+      return bookedByUser;
+    }).map(item => {
+      return { ...item, userNotEligibleToBook: true };
+    })
+    )
+  );
+
   getRides() {
     return this._rides$.asObservable();
   }
 
   getOpenRides() {
     return this.openRides$;
+  }
+  
+  getBookedRides() {
+    return this.bookedRides$;
   }
 
 
