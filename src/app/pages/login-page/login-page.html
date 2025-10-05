@@ -1,0 +1,38 @@
+<div class="login-container">
+  <mat-card>
+    <h2>Employee Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <!-- Employee ID -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Employee ID</mat-label>
+        <input matInput formControlName="employeeId" placeholder="Enter your ID" />
+        <mat-error *ngIf="loginForm.get('employeeId')?.hasError('required')">
+          Employee ID is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Ride or Book -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Choose Action</mat-label>
+        <mat-select formControlName="action">
+            @for (option of actions; track option.label) {
+                <mat-option [value]="option.value">
+                  {{ option.label }}
+                </mat-option>
+            }
+        </mat-select>
+        <mat-error *ngIf="loginForm.get('action')?.hasError('required')">
+          Please select an action
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Login Button -->
+      <div class="login-actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
