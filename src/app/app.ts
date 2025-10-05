@@ -18,11 +18,13 @@ export class App implements OnInit {
 
   showHamburger = true;
   private authService = inject(AuthService);
+  empId: string = "";
   ngOnInit(): void {
     this.authService.getIsLoggedIn().subscribe(
       loggedin => {
-        this.showHamburger = loggedin;
-        this.opened = loggedin;
+        this.showHamburger = !!loggedin;
+        this.opened = !!loggedin;
+        this.empId = loggedin;
       }
     )
   }

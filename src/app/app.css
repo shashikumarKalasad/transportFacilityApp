@@ -16,3 +16,8 @@
 app-top-bar{
   display: flex;
 }
+
+.profile{
+    text-align: center;
+    margin: 1rem;
+}

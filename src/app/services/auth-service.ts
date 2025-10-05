@@ -12,7 +12,7 @@ export type User = {
 })
 export class AuthService {
   private router = inject(Router);
-  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isLoggedIn: BehaviorSubject<string> = new BehaviorSubject('');
 
   private _user: User | undefined;
   public get user(): User | undefined {
@@ -24,11 +24,11 @@ export class AuthService {
   
   login(value: User) {
     this._user = value;
-    this.isLoggedIn.next(true);
+    this.isLoggedIn.next(value.empId.trim());
   }
   logout() {
     this._user = undefined;
-    this.isLoggedIn.next(false);
+    this.isLoggedIn.next("");
 
     this.router.navigate(['/login']);
   }
