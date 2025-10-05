@@ -1,0 +1,86 @@
+<!-- add-ride-dialog.component.html -->
+<h1 mat-dialog-title>Add Ride</h1>
+
+<div mat-dialog-content>
+
+  <form [formGroup]="rideForm">
+    <!-- Vehicle Type -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Vehicle Type</mat-label>
+      <mat-select formControlName="vehicleType">
+        @for (item of vehicleTypes; track $index) {
+            <mat-option [value]="item">
+              {{ item }}
+            </mat-option>
+        }
+      </mat-select>
+      <mat-error *ngIf="rideForm.get('vehicleType')?.hasError('required')">
+        Vehicle type is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Vehicle No -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Vehicle No</mat-label>
+      <input matInput formControlName="vehicleNo" />
+      <mat-error *ngIf="rideForm.get('vehicleNo')?.hasError('required')">
+        Vehicle number is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Vacant Seats -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Vacant Seats</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="vacantSeats"
+        min="1"
+        max="6"
+      />
+      <mat-error *ngIf="rideForm.get('vacantSeats')?.hasError('required')">
+        Vacant seats is required
+      </mat-error>
+      <mat-error *ngIf="rideForm.get('vacantSeats')?.hasError('min')">
+        Minimum 1 seat required
+      </mat-error>
+      <mat-error *ngIf="rideForm.get('vacantSeats')?.hasError('max')">
+        Maximum 6 seats allowed
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Time -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Time</mat-label>
+      <input matInput type="time" formControlName="time" />
+      <mat-error *ngIf="rideForm.get('time')?.hasError('required')">
+        Time is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Pick-up Point -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Pick-up Point</mat-label>
+      <input matInput formControlName="pickupPoint" />
+      <mat-error *ngIf="rideForm.get('pickupPoint')?.hasError('required')">
+        Pick-up point is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Destination -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Destination</mat-label>
+      <input matInput formControlName="destination" />
+      <mat-error *ngIf="rideForm.get('destination')?.hasError('required')">
+        Destination is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="rideForm.invalid">
+    Save
+  </button>
+</div>
