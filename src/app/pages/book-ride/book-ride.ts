@@ -17,37 +17,54 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './book-ride.css'
 })
 export class BookRide implements OnInit {
-onSearch() {
-// throw new Error('Method not implemented.');
-}
   private transportService = inject(TransportService);
   private destroyRef = inject(DestroyRef);
   private fb = inject(FormBuilder);
-
+  
   vehicleTypes = ['Bike', 'Car'];
   searchRideForm: FormGroup=this.fb.group({
-      vehicleType: [this.vehicleTypes, Validators.required],
-      time: '',
-    });
-
+    vehicleType: [this.vehicleTypes, Validators.required],
+    time: '',
+  });
+  
   rides:Ride[] =[];
+  filteredOpenRides:Ride[] =[];
   bookedrides:Ride[] =[];
   ngOnInit(): void {
-     this.transportService.getOpenRides()
-     .pipe(takeUntilDestroyed(this.destroyRef))
-     .subscribe(rides=>{
-       this.rides = rides;
-     })
-
-     this.transportService.getBookedRides()
-     .pipe(takeUntilDestroyed(this.destroyRef))
-     .subscribe(rides=>{
-       this.bookedrides = rides;
-     })
+    this.transportService.getOpenRides()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(rides=>{
+      this.rides = rides;
+      this.filteredOpenRides = rides;
+    })
+    
+    this.transportService.getBookedRides()
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(rides=>{
+      this.bookedrides = rides;
+    })
   }
   bookARide(ride:Ride){
-     this.transportService.bookRide(ride);
+    this.transportService.bookRide(ride);
   }
+  onSearch() {
+      const formValue = this.searchRideForm.value;
+      if(formValue.time){
+        const hrsMins = formValue.time.split(':');
+        const totalMins = (+hrsMins[0]*60) + +hrsMins[1]; 
+        this.filteredOpenRides = this.rides.filter(item => {
+          const rideDatetime = new Date(item.time);
+          const totalMinsRide = (rideDatetime.getHours()*60) + rideDatetime.getMinutes(); 
+          
+          return (formValue['vehicleType'] as string[]).includes(item.vehicleType) && Math.abs(totalMins-totalMinsRide)<= 60;
+        });
+      }else {
+        this.filteredOpenRides = this.rides.filter(item => {
+          return (formValue['vehicleType'] as string[]).includes(item.vehicleType);
+        });
+  
+      }
+    }
 }
 
 

@@ -43,7 +43,7 @@
                 </button>
         </form>
     </div>
-@for (item of rides; track item.rideId) {
+@for (item of filteredOpenRides; track item.rideId) {
     <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
 }
 </div>
