@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { Ride } from '../components/ride-tile/ride-tile';
 import { AuthService } from './auth-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class TransportService {
 
   private auth = inject(AuthService);
   private _rides$: BehaviorSubject<Ride[]> = new BehaviorSubject<Ride[]>(rides);
+  private _snackBar = inject(MatSnackBar);
 
   isUserTheAddedRide(ride: Ride) {
     return !!this.auth.user?.empId && ride.rideOwner === this.auth.user.empId
@@ -76,6 +78,8 @@ export class TransportService {
       }
     })
     this._rides$.next(currentRides);
+    this.openSnackBar('Booked ride successfully');
+
   }
 
   addRide(ride: Ride) {
@@ -88,7 +92,14 @@ export class TransportService {
     });
 
     this._rides$.next(currentRides);
+    this.openSnackBar('Added ride successfully');
 
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Close', {
+      duration: 3000
+    });
   }
 
 }
