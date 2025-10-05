@@ -39,6 +39,16 @@ export class TransportService {
     )
   );
 
+  userAddedRides$ = this._rides$.pipe(
+    map(rides => rides.filter(item => {
+      const userNotEligibleToBook = this.isUserTheAddedRide(item);
+      return userNotEligibleToBook;
+    }).map(item => {
+      return { ...item, userNotEligibleToBook: true };
+    })
+    )
+  );
+
   getRides() {
     return this._rides$.asObservable();
   }
@@ -49,6 +59,10 @@ export class TransportService {
   
   getBookedRides() {
     return this.bookedRides$;
+  }
+
+  getUserAddedRides() {
+    return this.userAddedRides$;
   }
 
     bookRide(ride: Ride) {

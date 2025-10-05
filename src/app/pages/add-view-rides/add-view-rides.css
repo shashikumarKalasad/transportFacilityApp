@@ -1,0 +1,7 @@
+.tile-container app-ride-tile{
+    display: inline-flex;
+}
+
+h2{
+    margin-left: 1rem;
+}
