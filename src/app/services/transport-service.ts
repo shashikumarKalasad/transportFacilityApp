@@ -1,4 +1,4 @@
-import {inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { Ride } from '../components/ride-tile/ride-tile';
 import { AuthService } from './auth-service';
@@ -11,13 +11,13 @@ export class TransportService {
   private auth = inject(AuthService);
   private _rides$: BehaviorSubject<Ride[]> = new BehaviorSubject<Ride[]>(rides);
 
-  isUserTheAddedRide(ride:Ride){
-   return !!this.auth.user?.empId && ride.rideOwner === this.auth.user.empId
+  isUserTheAddedRide(ride: Ride) {
+    return !!this.auth.user?.empId && ride.rideOwner === this.auth.user.empId
   }
 
-  isUserBookedRide(ride:Ride){
-   return !!this.auth.user?.empId && ride.bookedEmployees.includes(this.auth.user.empId)
-  } 
+  isUserBookedRide(ride: Ride) {
+    return !!this.auth.user?.empId && ride.bookedEmployees.includes(this.auth.user.empId)
+  }
 
   openRides$ = this._rides$.pipe(
     map(rides => rides.filter(item => {
@@ -56,7 +56,7 @@ export class TransportService {
   getOpenRides() {
     return this.openRides$;
   }
-  
+
   getBookedRides() {
     return this.bookedRides$;
   }
@@ -65,10 +65,10 @@ export class TransportService {
     return this.userAddedRides$;
   }
 
-    bookRide(ride: Ride) {
+  bookRide(ride: Ride) {
     const currentRides = this._rides$.value;
     console.log('dubugging');
-    
+
     currentRides.forEach(item => {
       if (item.rideId == ride.rideId && this.auth.user?.empId) {
         item.bookedEmployees.push(this.auth.user.empId)
@@ -76,6 +76,19 @@ export class TransportService {
       }
     })
     this._rides$.next(currentRides);
+  }
+
+  addRide(ride: Ride) {
+    const currentRides = this._rides$.value;
+    currentRides.unshift({
+      ...ride, rideId: currentRides.length + 1,
+      bookedEmployees: [],
+      rideOwner: this.auth.user?.empId ?? "",
+      remainingSeats: ride.vacantSeats
+    });
+
+    this._rides$.next(currentRides);
+
   }
 
 }

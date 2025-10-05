@@ -35,6 +35,8 @@ export class AddViewRides {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Ride to be added:', result);
+        this.transportService.addRide(result);
+
       }
     });  }
 }
