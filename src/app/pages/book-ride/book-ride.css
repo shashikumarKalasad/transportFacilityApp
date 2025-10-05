@@ -5,6 +5,9 @@
 h2,p{
     margin-left: 1rem;
 }
+.tile-container{
+    min-height: 12rem;
+}
 
 .tile-container mat-form-field{
   margin: 1rem;

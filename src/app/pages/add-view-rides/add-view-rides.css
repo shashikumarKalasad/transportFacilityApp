@@ -1,7 +1,9 @@
 .tile-container app-ride-tile{
     display: inline-flex;
 }
-
+.tile-container{
+    min-height: 12rem;
+}
 h2,p{
     margin-left: 1rem;
 }

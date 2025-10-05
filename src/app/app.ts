@@ -15,6 +15,7 @@ import { TopBar } from './components/top-bar/top-bar';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
+
   showHamburger = true;
   private authService = inject(AuthService);
   ngOnInit(): void {
@@ -27,6 +28,9 @@ export class App implements OnInit {
   }
   toggle() {
     this.opened = !this.opened;
+  }
+  logout() {
+     this.authService.logout();
   }
   opened = true;
 }
