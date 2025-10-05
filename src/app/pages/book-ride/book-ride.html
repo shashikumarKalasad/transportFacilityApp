@@ -4,8 +4,46 @@
     @for (item of bookedrides; track item.rideId) {
         <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
     }
-    <h2>Available rides to book</h2>
-    @for (item of rides; track item.rideId) {
-        <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
-    }
+</div>
+<div class="tile-container">
+<h2>Available rides to book</h2>
+    <div class="form-container">
+        <form [formGroup]="searchRideForm"  (ngSubmit)="onSearch()">
+            <!-- Vehicle Type -->
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Vehicle Type</mat-label>
+                <mat-select multiple formControlName="vehicleType">
+                    @for (item of vehicleTypes; track $index) {
+                    <mat-option [value]="item">
+                        {{ item }}
+                    </mat-option>
+                    }
+                </mat-select>
+                @if (searchRideForm.get('vehicleType')?.hasError('required')) {
+                <mat-error>
+                    Vehicle type is required
+                </mat-error>
+                }
+            </mat-form-field>
+
+
+            <!-- Time -->
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Time</mat-label>
+                <input matInput type="time" formControlName="time" />
+                @if (searchRideForm.get('time')?.hasError('required')) {
+
+                <mat-error>
+                    Time is required
+                </mat-error>
+                }
+            </mat-form-field>
+                <button mat-flat-button color="primary" type="submit" [disabled]="searchRideForm.invalid">
+                Search rides
+                </button>
+        </form>
+    </div>
+@for (item of rides; track item.rideId) {
+    <app-ride-tile [ride]="item" (bookARide)="bookARide(item)"></app-ride-tile>
+}
 </div>
